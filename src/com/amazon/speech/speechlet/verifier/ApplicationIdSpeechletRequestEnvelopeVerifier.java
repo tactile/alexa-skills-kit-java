@@ -13,19 +13,18 @@
 
 package com.amazon.speech.speechlet.verifier;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.speechlet.Context;
 import com.amazon.speech.speechlet.Session;
 import com.amazon.speech.speechlet.SpeechletRequest;
 import com.amazon.speech.speechlet.interfaces.system.SystemInterface;
 import com.amazon.speech.speechlet.interfaces.system.SystemState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Verifies whether or not individual application IDs are supported by the service.
@@ -60,6 +59,7 @@ public class ApplicationIdSpeechletRequestEnvelopeVerifier implements SpeechletR
      */
     @Override
     public boolean verify(SpeechletRequestEnvelope<?> requestEnvelope) {
+        log.info("supportedApplicationIds: " + supportedApplicationIds);
         if (supportedApplicationIds.isEmpty()) {
             log.warn("Application ID verification has been disabled, allowing request for all "
                     + "application IDs");
@@ -76,6 +76,7 @@ public class ApplicationIdSpeechletRequestEnvelopeVerifier implements SpeechletR
              * Note: we are still looking at the Session and not just the Context because some
              * clients may not yet be sending Context.
              */
+            log.info("session.getApplication().getApplicationId(): " + session.getApplication().getApplicationId());
             return supportedApplicationIds.contains(session.getApplication().getApplicationId());
         }
 

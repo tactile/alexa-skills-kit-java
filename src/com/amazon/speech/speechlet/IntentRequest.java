@@ -91,7 +91,11 @@ public class IntentRequest extends CoreSpeechletRequest {
       return message;
     }
 
-    /**
+    public void setMessage(String message) {
+      this.message = message;
+    }
+
+  /**
      * Builder used to construct a new {@code IntentRequest}.
      */
     public static final class Builder extends SpeechletRequestBuilder<Builder, IntentRequest> {

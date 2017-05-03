@@ -13,23 +13,14 @@
 
 package com.amazon.speech.speechlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.json.SpeechletResponseEnvelope;
-import com.amazon.speech.speechlet.verifier.ApplicationIdSpeechletRequestVerifier;
-import com.amazon.speech.speechlet.verifier.ApplicationIdSpeechletRequestEnvelopeVerifier;
-import com.amazon.speech.speechlet.verifier.CardSpeechletResponseVerifier;
-import com.amazon.speech.speechlet.verifier.OutputSpeechSpeechletResponseVerifier;
-import com.amazon.speech.speechlet.verifier.ResponseSizeSpeechletResponseVerifier;
-import com.amazon.speech.speechlet.verifier.SpeechletRequestVerifier;
-import com.amazon.speech.speechlet.verifier.SpeechletRequestEnvelopeVerifier;
-import com.amazon.speech.speechlet.verifier.SpeechletResponseVerifier;
+import com.amazon.speech.speechlet.verifier.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * The SpeechletRequestHandler processes an incoming request from the Alexa service, decides what
@@ -40,6 +31,9 @@ import com.amazon.speech.speechlet.verifier.SpeechletResponseVerifier;
  */
 @SuppressWarnings("deprecation")
 public class SpeechletRequestHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(SpeechletRequestHandler.class);
+
     private final List<SpeechletRequestVerifier> requestVerifiers;
     private final List<SpeechletRequestEnvelopeVerifier> requestEnvelopeVerifiers;
     private final List<SpeechletResponseVerifier> responseVerifiers;
@@ -132,6 +126,7 @@ public class SpeechletRequestHandler {
                         String.format("Could not validate SpeechletRequest %s using verifier %s, "
                                 + "rejecting request", request != null ? request.getRequestId()
                                 : "null", verifier.getClass().getSimpleName());
+                logger.warn(message);
                 throw new SpeechletRequestHandlerException(message);
             }
         }
@@ -142,6 +137,7 @@ public class SpeechletRequestHandler {
                         String.format("Could not validate SpeechletRequest %s using verifier %s, "
                                 + "rejecting request", request != null ? request.getRequestId()
                                 : "null", verifier.getClass().getSimpleName());
+                logger.warn(message);
                 throw new SpeechletRequestHandlerException(message);
             }
         }
@@ -159,6 +155,7 @@ public class SpeechletRequestHandler {
                                 + "rejecting response", request.getRequestId(), verifier
                                 .getClass()
                                 .getSimpleName());
+                logger.warn(message);
                 throw new SpeechletRequestHandlerException(message);
             }
         }
