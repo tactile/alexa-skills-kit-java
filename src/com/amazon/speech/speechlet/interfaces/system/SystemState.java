@@ -15,6 +15,7 @@ package com.amazon.speech.speechlet.interfaces.system;
 
 import com.amazon.speech.speechlet.Application;
 import com.amazon.speech.speechlet.Device;
+import com.amazon.speech.speechlet.Speaker;
 import com.amazon.speech.speechlet.State;
 import com.amazon.speech.speechlet.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,6 +24,7 @@ public final class SystemState extends State<SystemInterface> {
     private final Application application;
     private final User user;
     private final Device device;
+    private final Speaker speaker;
 
     /**
      * Returns a new builder instance used to construct a new {@code SystemState}.
@@ -43,6 +45,7 @@ public final class SystemState extends State<SystemInterface> {
         application = builder.application;
         user = builder.user;
         device = builder.device;
+        speaker = builder.speaker;
     }
 
     /**
@@ -54,12 +57,16 @@ public final class SystemState extends State<SystemInterface> {
      *            the user object
      * @param device
      *            the device object
+     * @param speaker
+     *            the speaker object
      */
     private SystemState(@JsonProperty("application") final Application application,
-            @JsonProperty("user") final User user, @JsonProperty("device") final Device device) {
+            @JsonProperty("user") final User user, @JsonProperty("device") final Device device,
+            @JsonProperty("speaker") final Speaker speaker) {
         this.application = application;
         this.user = user;
         this.device = device;
+        this.speaker = speaker;
     }
 
     public Application getApplication() {
@@ -72,6 +79,10 @@ public final class SystemState extends State<SystemInterface> {
 
     public Device getDevice() {
         return device;
+    }
+    
+    public Speaker getSpeaker() {
+      return speaker;
     }
 
     @Override
@@ -86,6 +97,7 @@ public final class SystemState extends State<SystemInterface> {
         private Application application;
         private User user;
         private Device device;
+        private Speaker speaker;
 
         private Builder() {
         }
@@ -103,6 +115,11 @@ public final class SystemState extends State<SystemInterface> {
         public Builder withDevice(final Device device) {
             this.device = device;
             return this;
+        }
+        
+        public Builder withSpeaker(final Speaker speaker) {
+          this.speaker = speaker;
+          return this;
         }
 
         public SystemState build() {
